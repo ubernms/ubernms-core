@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ubernms</groupId>
+        <artifactId>org.ubernms.core</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>org.ubernms.core.controller</artifactId>
+
+    <name>UberNMS :: Core :: Controller</name>
+
+    <packaging>bundle</packaging>
+
+    <properties>
+        <versions.grizzly>2.3.23</versions.grizzly>
+        <versions.resteasy>3.0.14.Final</versions.resteasy>
+        <versions.javax.servlet>3.1.0</versions.javax.servlet>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>org.ubernms.core.foundation</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- HTTP server -->
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-server</artifactId>
+            <version>${versions.grizzly}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-http-servlet</artifactId>
+            <version>${versions.grizzly}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${versions.javax.servlet}</version>
+        </dependency>
+
+        <!-- REST API -->
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${versions.resteasy}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>async-http-servlet-3.0</artifactId>
+            <version>${versions.resteasy}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-guice</artifactId>
+            <version>${versions.resteasy}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxb-provider</artifactId>
+            <version>${versions.resteasy}</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.resteasy</groupId>-->
+            <!--<artifactId>resteasy-yaml-provider</artifactId>-->
+            <!--<version>${versions.resteasy}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.resteasy</groupId>-->
+            <!--<artifactId>resteasy-jettison-provider</artifactId>-->
+            <!--<version>${versions.resteasy}</version>-->
+        <!--</dependency>-->
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+
+                <configuration>
+                    <unpackBundle>true</unpackBundle>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+
+                        <Bundle-Activator>${project.artifactId}.impl.Activator</Bundle-Activator>
+
+                        <Private-Package>
+                            ${project.artifactId}.impl,
+                            ${project.artifactId}.impl.*
+                        </Private-Package>
+
+                        <Export-Package>
+                            !${project.artifactId}.impl,
+                            !${project.artifactId}.impl.*,
+
+                            ${project.artifactId},
+                            ${project.artifactId}.*,
+                        </Export-Package>
+
+                        <_exportcontents>
+                            javax.ws.rs,
+                            javax.ws.rs.*,
+
+                            javax.*,
+                        </_exportcontents>
+
+                        <Import-Package>
+                            !sun.misc,
+                            !Acme.Serve,
+                            !org.apache.avalon.framework.logger,
+                            !org.apache.log,
+                            !org.apache.log4j,
+                            !org.jboss.logmanager,
+                            !org.junit,
+                            !org.jvnet.staxex,
+
+                            *
+                        </Import-Package>
+
+                            <!--org.osgi.*,-->
+
+                            <!--com.google.common.*,-->
+
+                            <!--javax.inject,-->
+                            <!--com.google.inject,-->
+                            <!--com.google.inject.name,-->
+
+                            <!--org.slf4j,-->
+
+                            <!--javax.net.ssl,-->
+
+                            <!--javax.xml,-->
+                            <!--javax.xml.*,-->
+
+                            <!--org.xml.sax.*,-->
+
+                            <!--org.w3c.dom,-->
+
+                            <!--javax.imageio,-->
+                            <!--javax.imageio.*,-->
+
+                            <!--${project.parent.artifactId}.foundation,-->
+                            <!--${project.parent.artifactId}.foundation.*-->
+                        <!--</Import-Package>-->
+
+                        <Embed-Dependency>*;scope=compile|runtime;type=!pom</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Embed-Directory>lib</Embed-Directory>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

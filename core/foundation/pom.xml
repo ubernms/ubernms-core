@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ubernms</groupId>
+        <artifactId>org.ubernms.core</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>org.ubernms.core.foundation</artifactId>
+
+    <name>UberNMS :: Core :: Foundation</name>
+
+    <packaging>bundle</packaging>
+
+    <properties>
+        <versions.slf4j>1.7.12</versions.slf4j>
+    </properties>
+
+    <dependencies>
+        <!-- OSGi -->
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Dependency injection -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>4.0</version>
+        </dependency>
+
+        <!-- Utilities -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${versions.slf4j}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${versions.slf4j}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${versions.slf4j}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>${versions.slf4j}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${versions.slf4j}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+
+                <configuration>
+                    <unpackBundle>true</unpackBundle>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+
+                        <Bundle-Activator>${project.artifactId}.impl.Activator</Bundle-Activator>
+
+                        <_exportcontents>
+                            <!-- Google Guava -->
+                            com.google.common.annotations,
+                            com.google.common.base,
+                            com.google.common.cache,
+                            com.google.common.collect,
+                            com.google.common.escape,
+                            com.google.common.eventbus,
+                            com.google.common.hash,
+                            com.google.common.html,
+                            com.google.common.io,
+                            com.google.common.math,
+                            com.google.common.net,
+                            com.google.common.primitives,
+                            com.google.common.reflect,
+                            com.google.common.util.concurrent,
+                            com.google.common.xml,
+
+                            <!-- Google Guice -->
+                            javax.inject,
+                            org.aopalliance.aop,
+                            org.aopalliance.intercept,
+                            com.google.inject,
+                            com.google.inject.binder,
+                            com.google.inject.matcher,
+                            com.google.inject.name,
+                            com.google.inject.spi,
+                            com.google.inject.util,
+                            com.google.thirdparty.publicsuffix,
+
+                            <!-- Logging -->
+                            org.slf4j,
+                            org.slf4j.helpers,
+                            org.slf4j.spi,
+                        </_exportcontents>
+
+                        <Export-Package>
+                            !${project.artifactId}.impl,
+                            !${project.artifactId}.impl.*,
+
+                            ${project.artifactId},
+                            ${project.artifactId}.*
+                        </Export-Package>
+
+                        <!-- As this is our foundation, we explicitly depend on nothing (besides OSGi itself) -->
+                        <Import-Package>org.osgi.*</Import-Package>
+
+                        <Embed-Dependency>*;scope=compile|runtime;type=!pom</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Embed-Directory>lib</Embed-Directory>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

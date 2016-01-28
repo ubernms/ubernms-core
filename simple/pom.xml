@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.ubernms</groupId>
+        <artifactId>org.ubernms</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>org.ubernms.simple</artifactId>
+
+    <name>UberNMS :: Simple</name>
+
+    <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>org.ubernms.core.foundation</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>org.ubernms.core.controller</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+
+                <configuration>
+                    <unpackBundle>true</unpackBundle>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Name>${project.name}</Bundle-Name>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+
+                        <Bundle-Activator>${project.artifactId}.impl.Activator</Bundle-Activator>
+
+                        <Private-Package>
+                            ${project.artifactId}.impl,
+                            ${project.artifactId}.impl.*
+                        </Private-Package>
+
+                        <Export-Package>
+                            !${project.artifactId}.impl,
+                            !${project.artifactId}.impl.*,
+
+                            ${project.artifactId},
+                            ${project.artifactId}.*
+                        </Export-Package>
+
+                        <!--<Import-Package>-->
+                            <!--com.google.common.*,-->
+
+                            <!--javax.inject,-->
+                            <!--com.google.inject,-->
+                            <!--com.google.inject.name,-->
+
+                            <!--org.slf4j,-->
+
+                            <!--javax.ws.rs,-->
+                            <!--javax.xml.bind,-->
+
+                            <!--${project.parent.artifactId}.core.foundation,-->
+                            <!--${project.parent.artifactId}.core.foundation.*,-->
+
+                            <!--${project.parent.artifactId}.core.controller,-->
+                            <!--${project.parent.artifactId}.core.controller.*-->
+                        <!--</Import-Package>-->
+
+                        <Embed-Dependency>*;scope=compile|runtime;type=!pom</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                        <Embed-Directory>lib</Embed-Directory>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
